@@ -10,6 +10,10 @@ namespace Cipher
     {
         static void Main(string[] args)
         {
+            var lat = new Attacks.LinearApproximationTable();
+            lat.Attack();
+
+            Console.ReadKey();
         }
     }
 }
