@@ -1,20 +1,24 @@
-﻿using System;
+﻿using CryptoNET.Cipher.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Attacks
+namespace CryptoNET.Cipher.Attacks
 {
     public class LinearApproximationTable
     {
-        public void Attack()
+        private SubstitutionTable _SBox;
+
+        public LinearApproximationTable(SubstitutionTable substitutionTable)
         {
-            int[][] result = new int[0xf + 1][];
-            for (int i = 0; i <= 0xf; i++)
-            {
-                result[i] = new int[0xf + 1];
-            }
+            _SBox = substitutionTable;
+        }
+
+        public Table CreateLinearApproximationTable()
+        {
+            Table result = new Table(16);
 
             for (int x = 0x0; x <= 0xf; x++)
             {
@@ -23,7 +27,7 @@ namespace Attacks
                 int x2 = (x >> 2) & 1;
                 int x3 = (x >> 3) & 1;
 
-                int y = Core.SubstitutionTable.SBox(x);
+                int y = _SBox[x];
 
                 int y0 = y & 1;
                 int y1 = (y >> 1) & 1;
@@ -49,39 +53,14 @@ namespace Attacks
 
                         if (a_term == b_term)
                         {
-                            result[a][b]++;
+                            result[a, b]++;
                         }
                     }
                 }
             }
 
-            Normalize(result);
-
-            Print(result);
-        }
-
-        private void Normalize(int[][] matrix)
-        {
-            for (int i = 0; i <= 0xf; i++)
-            {
-                for (int j = 0; j <= 0xf; j++)
-                {
-                    matrix[i][j] -= 8;
-                }
-            }
-        }
-
-        private void Print(int[][] matrix)
-        {
-            for (int i = 0; i <= 0xf; i++)
-            {
-                for (int j = 0; j <= 0xf; j++)
-                {
-                    Console.Write(matrix[i][j] + ", ");
-                }
-                Console.WriteLine();
-            }
-
+            result.Normalize();
+            return result;
         }
     }
 }

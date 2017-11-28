@@ -4,13 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core
+namespace CryptoNET.Cipher.Core
 {
+    public enum Access
+    {
+        Normal,
+        Invers
+    }
+
     public class SubstitutionTable
     {
-        private static readonly Dictionary<int, int> _table;
+        public int this[int index, Access access = Access.Normal]
+        {
+            get { return access != Access.Invers ? _table[index] : _table.First(kvp => kvp.Value == index).Key; }
+        }
 
-        static SubstitutionTable()
+        private readonly Dictionary<int, int> _table;
+
+        public SubstitutionTable()
         {
             _table = new Dictionary<int, int>
             {
@@ -33,15 +44,9 @@ namespace Core
             };
         }
 
-        public static int SBox(int key)
+        public SubstitutionTable(Dictionary<int, int> table)
         {
-            return _table[key];
-        }
-
-        public static int InversSBox(int value)
-        {
-            var keyValuePair = _table.First(kvp => kvp.Value == value);
-            return keyValuePair.Key;
+            _table = table;
         }
     }
 }

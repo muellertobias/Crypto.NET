@@ -1,21 +1,28 @@
-﻿using Core;
+﻿using CryptoNET.Cipher.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CipherOne
+namespace CryptoNET.Cipher.CipherOne
 {
     public class CipherOne : ICipher
     {
+        private SubstitutionTable _SBox;
+
+        public CipherOne(SubstitutionTable substitutionTable)
+        {
+            _SBox = substitutionTable;
+        }
+
         public int Decrypt(int crypt, int key)
         {
             int k0 = (key >> sizeof(int));
             int k1 = (key & 0xf);
 
             int v = crypt ^ k1;
-            int u = SubstitutionTable.InversSBox(v);
+            int u = _SBox[v, Access.Invers];
             int m = u ^ k0;
 
             return m;
@@ -27,7 +34,7 @@ namespace CipherOne
             int k1 = (key & 0xf);
 
             int u = message ^ k0;
-            int v = SubstitutionTable.SBox(u);
+            int v = _SBox[u];
             int c = v ^ k1;
 
             return c;

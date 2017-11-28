@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace CryptoNET.Cipher.Core
 {
     public interface ICipher
     {

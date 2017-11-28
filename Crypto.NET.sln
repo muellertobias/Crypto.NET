@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cipher", "Cipher\Cipher.csproj", "{1D78A7EE-80E9-414A-A0F3-206B5360191F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CipherApp", "Cipher\CipherApp.csproj", "{1D78A7EE-80E9-414A-A0F3-206B5360191F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CipherOne", "CipherOne\CipherOne.csproj", "{A100BD8F-8A46-4C1C-B7AC-4ED106B34047}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{884F3501-57E7-430B-AFD4-49B20C538EF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attacks", "Attacks\Attacks.csproj", "{71A796A8-ABA6-44BC-A593-913D4643F5AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cipher", "Cipher", "{B9456A8F-E9E3-4990-82C1-831E2F3B3305}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AB2040F7-2C1F-4954-A35D-E468A416D72F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D78A7EE-80E9-414A-A0F3-206B5360191F} = {B9456A8F-E9E3-4990-82C1-831E2F3B3305}
+		{A100BD8F-8A46-4C1C-B7AC-4ED106B34047} = {B9456A8F-E9E3-4990-82C1-831E2F3B3305}
+		{884F3501-57E7-430B-AFD4-49B20C538EF6} = {B9456A8F-E9E3-4990-82C1-831E2F3B3305}
+		{71A796A8-ABA6-44BC-A593-913D4643F5AC} = {B9456A8F-E9E3-4990-82C1-831E2F3B3305}
+		{AB2040F7-2C1F-4954-A35D-E468A416D72F} = {B9456A8F-E9E3-4990-82C1-831E2F3B3305}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BCC1AE2-67FA-40F0-AC31-79F1FE2886E0}

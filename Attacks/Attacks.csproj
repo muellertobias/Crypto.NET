@@ -7,8 +7,8 @@
     <ProjectGuid>{71A796A8-ABA6-44BC-A593-913D4643F5AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Attacks</RootNamespace>
-    <AssemblyName>Attacks</AssemblyName>
+    <RootNamespace>CryptoNET.Cipher.Attacks</RootNamespace>
+    <AssemblyName>CryptoNET.Cipher.Attacks</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="LinearApproximationTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Table.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
