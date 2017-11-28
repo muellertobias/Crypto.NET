@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\Attacks\Attacks.csproj">
       <Project>{71a796a8-aba6-44bc-a593-913d4643f5ac}</Project>
       <Name>Attacks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CipherOne\CipherOne.csproj">
+      <Project>{a100bd8f-8a46-4c1c-b7ac-4ed106b34047}</Project>
+      <Name>CipherOne</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{884f3501-57e7-430b-afd4-49b20c538ef6}</Project>

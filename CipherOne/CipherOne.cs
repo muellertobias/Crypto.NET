@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptoNET.Cipher.CipherOne
+namespace CryptoNET.Cipher.One
 {
     public class CipherOne : ICipher
     {

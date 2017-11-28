@@ -23,5 +23,13 @@ namespace CryptoNET.Cipher.Core.Extensions
 
             return result;
         }
+
+        public static void SetAll(this BitArray bitArray, int value)
+        {
+            for (int i = 0; i < bitArray.Length; i++)
+            {
+                bitArray.Set(i, ((value >> i) & 1) == 1);
+            }
+        }
     }
 }
