@@ -1,6 +1,8 @@
 ﻿using CryptoNET.Cipher.Attacks;
 using CryptoNET.Cipher.Core;
+using CryptoNET.Cipher.Core.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -50,6 +52,39 @@ namespace CryptoNET.Cipher.CipherApp
                 }
                 _writer.WriteLine();
             }
+
+            var entries = table.GetSecondMaximumEntries();
+
+            
+            foreach (var entry in entries)
+            {
+                int counter = 0;
+                var a = CreateBitArray(entry.Row);
+                var b = CreateBitArray(entry.Column);
+
+                bool lhs = a[1] ^ a[0] ^ b[2] ^ b[1] ^ b[0];
+
+                for (int key = 0b00000; key <= 0b11111; key++)
+                {
+                    var k = CreateBitArray(key, 5);
+                    bool rhs = k.XorEach();
+                    if (lhs == rhs)
+                    {
+                        counter++;
+                    }
+                }
+
+                _writer.WriteLine(string.Format("{0} von {1} Fällen getroffen", counter, 32));
+            }
+
+
+        }
+
+        private BitArray CreateBitArray(int value, int size = 4)
+        {
+            var bitArray = new BitArray(size);
+            bitArray.SetAll(value);
+            return bitArray;
         }
 
         public void PrintSubstitutionTable()

@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace CryptoNET.Cipher.Core
 {
+    public class Entry
+    {
+        public int Value { get; set; }
+        public int Column { get; set; }
+        public int Row { get; set; }
+    }
+
     public class Table
     {
         public int this[int indexX, int indexY]
         {
-            get { return values[indexX][indexY]; }
-            set { values[indexX][indexY] = value; }
+            get { return values[indexX, indexY]; }
+            set { values[indexX, indexY] = value; }
         }
 
-        private int[][] values;
+        private int[,] values;
         private bool _isNormalized;
         private int _size;
 
@@ -22,11 +29,8 @@ namespace CryptoNET.Cipher.Core
         {
             _size = Size;
             _isNormalized = false;
-            values = new int[_size][];
-            for (int i = 0; i < _size; i++)
-            {
-                values[i] = new int[0xf + 1];
-            }
+            values = new int[_size, _size];
+            values.Initialize();
         }
 
         public void Normalize()
@@ -39,10 +43,39 @@ namespace CryptoNET.Cipher.Core
             {
                 for (int j = 0; j < _size; j++)
                 {
-                    values[i][j] -= factor;
+                    this[i, j] -= factor;
                 }
             }
             _isNormalized = true;
+        }
+
+        public List<Entry> GetSecondMaximumEntries()
+        {
+            List<Entry> entries = new List<Entry>();
+
+            int maximum = -1;
+
+            for (int a = 0; a < _size; a++)
+            {
+                for (int b = 0; b < _size; b++)
+                {
+                    if (a != 0 && b != 0)
+                    {
+                        if (maximum < values[a, b])
+                        {
+                            entries.Clear();
+                            maximum = values[a, b];
+                            entries.Add(new Entry() { Column = b, Row = a, Value = values[a, b] });
+                        }
+                        else if (maximum == values[a, b])
+                        {
+                            entries.Add(new Entry() { Column = b, Row = a, Value = values[a, b] });
+                        }
+                    }
+                }
+            }
+
+            return entries;
         }
     }
 }
