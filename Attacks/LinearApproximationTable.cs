@@ -1,5 +1,7 @@
 ﻿using CryptoNET.Cipher.Core;
+using CryptoNET.Cipher.Core.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,40 +22,27 @@ namespace CryptoNET.Cipher.Attacks
         {
             Table result = new Table(16);
 
-            for (int x = 0x0; x <= 0xf; x++)
+            for (int x_value = 0x0; x_value <= 0xf; x_value++)
             {
-                int x0 = x & 1;
-                int x1 = (x >> 1) & 1;
-                int x2 = (x >> 2) & 1;
-                int x3 = (x >> 3) & 1;
+                int y_value = _SBox[x_value];
 
-                int y = _SBox[x];
+                var x = ToBitArray(x_value);
+                var y = ToBitArray(y_value);
 
-                int y0 = y & 1;
-                int y1 = (y >> 1) & 1;
-                int y2 = (y >> 2) & 1;
-                int y3 = (y >> 3) & 1;
-
-                for (int a = 0x0; a <= 0xf; a++)
+                for (int a_value = 0x0; a_value <= 0xf; a_value++)
                 {
-                    int a0 = a & 1;
-                    int a1 = (a >> 1) & 1;
-                    int a2 = (a >> 2) & 1;
-                    int a3 = (a >> 3) & 1;
+                    var a = ToBitArray(a_value);
 
-                    for (int b = 0x0; b <= 0xf; b++)
+                    for (int b_value = 0x0; b_value <= 0xf; b_value++)
                     {
-                        int b0 = b & 1;
-                        int b1 = (b >> 1) & 1;
-                        int b2 = (b >> 2) & 1;
-                        int b3 = (b >> 3) & 1;
+                        var b = ToBitArray(b_value);
 
-                        int a_term = a3 & x3 ^ a2 & x2 ^ a1 & x1 ^ a0 & x0;
-                        int b_term = b3 & y3 ^ b2 & y2 ^ b1 & y1 ^ b0 & y0;
+                        var a_term = a.And(x).XorEach();  //bool a_term = a[3] & x[3] ^ a[2] & x[2] ^ a[1] & x[1] ^ a[0] & x[0];
+                        var b_term = b.And(y).XorEach();  //bool b_term = b[3] & y[3] ^ b[2] & y[2] ^ b[1] & y[1] ^ b[0] & y[0];
 
                         if (a_term == b_term)
                         {
-                            result[a, b]++;
+                            result[a_value, b_value]++;
                         }
                     }
                 }
@@ -61,6 +50,16 @@ namespace CryptoNET.Cipher.Attacks
 
             result.Normalize();
             return result;
+        }
+
+        private BitArray ToBitArray(int value)
+        {
+            var bitArray = new BitArray(4);
+            for (int i = 0; i < bitArray.Length; i++)
+            {
+                bitArray.Set(i, ((value >> i) & 1) == 1);
+            }
+            return bitArray;
         }
     }
 }
