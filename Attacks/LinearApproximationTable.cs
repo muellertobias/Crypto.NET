@@ -11,20 +11,22 @@ namespace CryptoNET.Cipher.Attacks
 {
     public class LinearApproximationTable
     {
-        private SubstitutionTable _SBox;
+        public SubstitutionTable SBox { get; protected set; }
+        public Table Table { get; protected set; }
 
         public LinearApproximationTable(SubstitutionTable substitutionTable)
         {
-            _SBox = substitutionTable;
+            SBox = substitutionTable;
+            Table = CreateLinearApproximationTable();
         }
 
-        public Table CreateLinearApproximationTable()
+        private Table CreateLinearApproximationTable()
         {
             Table result = new Table(16);
 
             for (int x_value = 0x0; x_value <= 0xf; x_value++)
             {
-                int y_value = _SBox[x_value];
+                int y_value = SBox[x_value];
 
                 var x = CreateBitArray(x_value);
                 var y = CreateBitArray(y_value);
@@ -50,6 +52,55 @@ namespace CryptoNET.Cipher.Attacks
 
             result.Normalize();
             return result;
+        }
+
+        public void Attack()
+        {
+            var entries = Table.GetSecondMaximumEntries();
+            List<int> keys = new List<int>();
+            foreach (var entry in entries)
+            {
+                var a = CreateBitArray(entry.Row);
+                var b = CreateBitArray(entry.Column);
+
+                bool lhs = a[1] ^ a[0] ^ b[2] ^ b[1] ^ b[0];
+
+                for (int key = 0b00000000; key <= 0b11111111; key++)
+                {
+                    var k0 = CreateBitArray(key >> 4, 4);
+                    var k1 = CreateBitArray(key & 0xf, 4);
+
+                    bool rhs = k0[1] ^ k0[0] ^ k1[2] ^ k1[1] ^ k1[0];
+
+                    //if (lhs == rhs) // Gleich nie erfüllt?! key=97 wird gefunden
+                    //{
+                        if (k0[0] ^ k1[2] != false)
+                            continue;
+                        if (k0[0] ^ k1[1] ^ k1[3] != false)
+                            continue;
+                        if (k0[1] ^ k1[1] ^ k1[2] != false)
+                            continue;
+                        if (k0[1] ^ k1[0] ^ k1[2] ^ k1[3] != false)
+                            continue;
+                        if (k0[0] ^ k0[1] ^ k1[0] ^ k1[1] ^ k1[2] != false)
+                            continue;
+                        if (k0[2] ^ k1[2] != true)
+                            continue;
+                        if (k0[2] ^ k1[0] ^ k1[2] ^ k1[3] != false)
+                            continue;
+                        if (k0[0] ^ k0[2] ^ k1[1] != false)
+                            continue;
+                        if (k0[0] ^ k0[2] ^ k1[0] ^ k1[2] != true)
+                            continue;
+
+                        int[] bytes = new int[2];
+                        k0.CopyTo(bytes, 0);
+                        k1.CopyTo(bytes, 1);
+                        keys.Add((bytes[0] << 4) | bytes[1]);
+                    //}
+
+                }
+            }
         }
 
         private BitArray CreateBitArray(int value, int size = 4)

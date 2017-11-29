@@ -42,40 +42,39 @@ namespace CryptoNET.Cipher.CipherApp
         public void PrintLinearApproximationTable()
         {
             var lat = new LinearApproximationTable(_substitutionTable);
-            var table = lat.CreateLinearApproximationTable();
 
             for (int i = 0; i <= 0xf; i++)
             {
                 for (int j = 0; j <= 0xf; j++)
                 {
-                    _writer.Write(table[i, j] + ", ");
+                    _writer.Write(lat.Table[i, j] + ", ");
                 }
                 _writer.WriteLine();
             }
-
-            var entries = table.GetSecondMaximumEntries();
+            lat.Attack();
+            //var entries = lat.Table.GetSecondMaximumEntries();
 
             
-            foreach (var entry in entries)
-            {
-                int counter = 0;
-                var a = CreateBitArray(entry.Row);
-                var b = CreateBitArray(entry.Column);
+            //foreach (var entry in entries)
+            //{
+            //    int counter = 0;
+            //    var a = CreateBitArray(entry.Row);
+            //    var b = CreateBitArray(entry.Column);
 
-                bool lhs = a[1] ^ a[0] ^ b[2] ^ b[1] ^ b[0];
+            //    bool lhs = a[1] ^ a[0] ^ b[2] ^ b[1] ^ b[0];
 
-                for (int key = 0b00000; key <= 0b11111; key++)
-                {
-                    var k = CreateBitArray(key, 5);
-                    bool rhs = k.XorEach();
-                    if (lhs == rhs)
-                    {
-                        counter++;
-                    }
-                }
+            //    for (int key = 0b00000; key <= 0b11111; key++)
+            //    {
+            //        var k = CreateBitArray(key, 5);
+            //        bool rhs = k.XorEach();
+            //        if (lhs == rhs)
+            //        {
+            //            counter++;
+            //        }
+            //    }
 
-                _writer.WriteLine(string.Format("{0} von {1} Fällen getroffen", counter, 32));
-            }
+            //    _writer.WriteLine(string.Format("{0} von {1} Fällen getroffen", counter, 32));
+            //}
         }
 
         private BitArray CreateBitArray(int value, int size = 4)

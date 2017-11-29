@@ -18,7 +18,8 @@ namespace CryptoNET.Cipher.CipherApp
         {
             Program program = new Program(args);
             program.Execute();
-            
+
+            Console.WriteLine("Press any key ...");
             Console.ReadKey();
         }
 
