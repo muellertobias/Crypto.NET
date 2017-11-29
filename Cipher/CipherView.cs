@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CryptoNET.Cipher.CipherApp
 {
-    public class ConsoleView
+    public class CipherView
     {
         private readonly string format = "{3} 0x{0:x} -(0x{1:x})-> 0x{2:x}";
 
@@ -20,7 +20,7 @@ namespace CryptoNET.Cipher.CipherApp
         private readonly ICipher _cipher;
         private readonly SubstitutionTable _substitutionTable;
 
-        public ConsoleView(TextWriter writer, ICipher cipher, SubstitutionTable substitutionTable)
+        public CipherView(TextWriter writer, ICipher cipher, SubstitutionTable substitutionTable)
         {
             _writer = writer;
             _cipher = cipher;
@@ -76,8 +76,6 @@ namespace CryptoNET.Cipher.CipherApp
 
                 _writer.WriteLine(string.Format("{0} von {1} Fällen getroffen", counter, 32));
             }
-
-
         }
 
         private BitArray CreateBitArray(int value, int size = 4)

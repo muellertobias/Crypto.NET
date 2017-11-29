@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D78A7EE-80E9-414A-A0F3-206B5360191F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CryptoNET.Cipher.CipherApp</RootNamespace>
-    <AssemblyName>CryptoNET.Cipher.CipherApp</AssemblyName>
+    <ProjectGuid>{14F5E14D-EDD1-459B-A524-E4351626773B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CryptoNET.Cipher.Two</RootNamespace>
+    <AssemblyName>CryptoNET.Cipher.Two</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,26 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CipherView.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="CipherTwo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Attacks\Attacks.csproj">
-      <Project>{71a796a8-aba6-44bc-a593-913d4643f5ac}</Project>
-      <Name>Attacks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CipherOne\CipherOne.csproj">
-      <Project>{a100bd8f-8a46-4c1c-b7ac-4ed106b34047}</Project>
-      <Name>CipherOne</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CipherTwo\CipherTwo.csproj">
-      <Project>{14f5e14d-edd1-459b-a524-e4351626773b}</Project>
-      <Name>CipherTwo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{884f3501-57e7-430b-afd4-49b20c538ef6}</Project>
       <Name>Core</Name>

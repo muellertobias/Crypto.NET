@@ -8,95 +8,90 @@ using System.Threading.Tasks;
 using CryptoNET.Cipher.One;
 using System.IO;
 using System.Globalization;
+using CryptoNET.Cipher.Two;
 
 namespace CryptoNET.Cipher.CipherApp
 {
     class Program
     {
-        static int Main(string[] args)
+        public static void Main(string[] args)
         {
-            int version = int.Parse(args[0]);
-            string action = args[1];
-            TextWriter writer = Console.Out;
-            ConsoleView view = null;
-            SubstitutionTable substitutionTable = new SubstitutionTable();
+            Program program = new Program(args);
+            program.Execute();
+            
+            Console.ReadKey();
+        }
 
+        private SubstitutionTable substitutionTable;
+        private TextWriter writer;
+        private CipherView view;
+        private string action;
+        private string[] arguments;
+
+        public Program(string[] args)
+        {
+            if (args.Length < 2)
+                throw new ArgumentException();
+
+            substitutionTable = new SubstitutionTable();
+            writer = Console.Out;
+            action = args[1];
+
+            int version = int.Parse(args[0]);
             switch (version)
             {
                 case 1:
-                    view = new ConsoleView(writer, new CipherOne(substitutionTable), substitutionTable);
+                    view = new CipherView(writer, new CipherOne(substitutionTable), substitutionTable);
+                    break;
+                case 2:
+                    view = new CipherView(writer, new CipherTwo(substitutionTable), substitutionTable);
                     break;
                 default:
-                    writer.WriteLine("Version " + version + " not implemented!");
-                    return -1;
+                    throw new NotImplementedException("Version " + version + " not implemented!");
             }
 
-            var code = DoAction(args, action, view);
-
-            if (code == -1)
-            {
-                writer.WriteLine("Action " + action + " not implemented!");
-            }
-            else if (code == -2)
-            {
-                writer.WriteLine("Wrong arguments: {0}", args);
-            }
-            
-            Console.ReadKey();
-            return 0;
+            arguments = args.Skip(2).ToArray();
         }
 
-        private static int DoAction(string[] args, string action, ConsoleView view)
+        public void Execute()
         {
             switch (action)
             {
                 case "e":
-                    return Encrypt(view, args);
+                    Encrypt();
+                    break;
                 case "d":
-                    return Decrypt(view, args);
+                    Decrypt();
+                    break;
                 case "lat":
-                    return PrintLinearApproximationTable(view, args);
+                    view.PrintLinearApproximationTable();
+                    break;
                 case "sub":
-                    return PrintLinearApproximationTable(view, args);
+                    view.PrintSubstitutionTable();
+                    break;
                 default:
-                    return -1;
+                    throw new NotSupportedException("Action " + action);
             }
         }
 
-        private static int Encrypt(ConsoleView view, string[] args)
+        private void Encrypt()
         {
-            if (args.Length != 4)
-                return -2;
+            if (arguments.Length != 2)
+                throw new ArgumentException(nameof(arguments));
 
-            int message = int.Parse(args[2], NumberStyles.HexNumber);
-            int key = int.Parse(args[3], NumberStyles.HexNumber);
+            int message = int.Parse(arguments[0], NumberStyles.HexNumber);
+            int key = int.Parse(arguments[1], NumberStyles.HexNumber);
             view.Encrypt(message, key);
-
-            return 0;
         }
 
-        private static int Decrypt(ConsoleView view, string[] args)
+        private void Decrypt()
         {
-            if (args.Length != 4)
-                return -2;
+            if (arguments.Length != 4)
+                throw new ArgumentException(nameof(arguments));
 
-            int cipherText = int.Parse(args[2], NumberStyles.HexNumber);
-            int key = int.Parse(args[3], NumberStyles.HexNumber);
+            int cipherText = int.Parse(arguments[0], NumberStyles.HexNumber);
+            int key = int.Parse(arguments[1], NumberStyles.HexNumber);
             view.Decrypt(cipherText, key);
-
-            return 0;
-        }
-
-        private static int PrintLinearApproximationTable(ConsoleView view, string[] args)
-        {
-            view.PrintLinearApproximationTable();
-            return 0;
-        }
-
-        private static int PrintSubstitutionTable(ConsoleView view, string[] args)
-        {
-            view.PrintSubstitutionTable();
-            return 0;
         }
     }
 }
