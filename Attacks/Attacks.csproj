@@ -41,9 +41,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LinearApproximationTable.cs" />
+    <Compile Include="One\CipherOneAttacks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Two\CipherTwoAttacks.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CipherOne\CipherOne.csproj">
+      <Project>{A100BD8F-8A46-4C1C-B7AC-4ED106B34047}</Project>
+      <Name>CipherOne</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CipherTwo\CipherTwo.csproj">
+      <Project>{14F5E14D-EDD1-459B-A524-E4351626773B}</Project>
+      <Name>CipherTwo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{884f3501-57e7-430b-afd4-49b20c538ef6}</Project>
       <Name>Core</Name>

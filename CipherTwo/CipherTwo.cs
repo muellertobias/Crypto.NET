@@ -9,11 +9,11 @@ namespace CryptoNET.Cipher.Two
 {
     public class CipherTwo : ICipher
     {
-        private SubstitutionTable _SBox;
+        public SubstitutionTable SBox { get; protected set; }
 
         public CipherTwo(SubstitutionTable substitutionTable)
         {
-            _SBox = substitutionTable;
+            SBox = substitutionTable;
         }
 
         public int Decrypt(int crypt, int key)
@@ -23,9 +23,9 @@ namespace CryptoNET.Cipher.Two
             int k2 = key & 0xf;
 
             int x = crypt ^ k2;
-            int w = _SBox[x, Access.Invers];
+            int w = SBox[x, Access.Invers];
             int v = w ^ k1;
-            int u = _SBox[v, Access.Invers];
+            int u = SBox[v, Access.Invers];
             int m = u ^ k0;
 
             return m;
@@ -38,9 +38,9 @@ namespace CryptoNET.Cipher.Two
             int k2 = key & 0xf;
 
             int u = message ^ k0;
-            int v = _SBox[u];
+            int v = SBox[u];
             int w = v ^ k1;
-            int x = _SBox[u];
+            int x = SBox[u];
             int c = x ^ k2;
 
             return c;

@@ -9,11 +9,11 @@ namespace CryptoNET.Cipher.One
 {
     public class CipherOne : ICipher
     {
-        private SubstitutionTable _SBox;
+        public SubstitutionTable SBox { get; protected set; }
 
         public CipherOne(SubstitutionTable substitutionTable)
         {
-            _SBox = substitutionTable;
+            SBox = substitutionTable;
         }
 
         public int Decrypt(int crypt, int key)
@@ -22,7 +22,7 @@ namespace CryptoNET.Cipher.One
             int k1 = (key & 0xf);
 
             int v = crypt ^ k1;
-            int u = _SBox[v, Access.Invers];
+            int u = SBox[v, Access.Invers];
             int m = u ^ k0;
 
             return m;
@@ -34,7 +34,7 @@ namespace CryptoNET.Cipher.One
             int k1 = (key & 0xf);
 
             int u = message ^ k0;
-            int v = _SBox[u];
+            int v = SBox[u];
             int c = v ^ k1;
 
             return c;
